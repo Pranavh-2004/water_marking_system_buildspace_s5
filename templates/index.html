@@ -4,31 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upload</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload an Image</h1>
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-    </form>
-    {% if image_hash %}
-        <h2>Image Hash</h2>
-        <p>{{ image_hash }}</p>
-        <h2>Bounding Box Coordinates</h2>
-        <ul>
-            {% for obj in object_positions_list %}
-                <li>
-                    <p>Object:</p>
-                    <ul>
-                        {% for coord in obj.objects %}
-                            <li>Coordinates: {{ coord.x }}</li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
-        <h2>Uploaded Image</h2>
-        <img src="{{ file_path }}" alt="Uploaded Image" style="max-width: 500px;">
-    {% endif %}
+    <div class="container">
+        <h1 class="text-center mb-4">Upload an Image</h1>
+        <div class="card">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" class="mb-3">
+                    <div class="form-group">
+                        <input type="file" name="file" class="form-control-file">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+                {% if image_hash %}
+                    <div class="alert alert-info">
+                        <h4>Image Hash</h4>
+                        <p>{{ image_hash }}</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <h4>Bounding Box Coordinates</h4>
+                        <ul class="list-group">
+                            {% for obj in object_positions_list %}
+                                <li class="list-group-item">
+                                    <p><strong>Object:</strong></p>
+                                    <ul>
+                                        {% for coord in obj.objects %}
+                                            <li>Coordinates: {{ coord.x }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Uploaded Image</h4>
+                            <img src="{{ file_path }}" alt="Uploaded Image">
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
