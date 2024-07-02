@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+</head>
+<body>
+    <h1>Upload an Image</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    {% if image_hash %}
+        <h2>Image Hash</h2>
+        <p>{{ image_hash }}</p>
+        <h2>Bounding Box Coordinates</h2>
+        <ul>
+            {% for obj in object_positions_list %}
+                <li>
+                    <p>Object:</p>
+                    <ul>
+                        {% for coord in obj.objects %}
+                            <li>Coordinates: {{ coord.x }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+        <h2>Uploaded Image</h2>
+        <img src="{{ file_path }}" alt="Uploaded Image" style="max-width: 500px;">
+    {% endif %}
+</body>
+</html>
