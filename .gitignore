@@ -158,7 +158,7 @@ cython_debug/
 10_food_classes_all_data/
 
 #saved model
-saved_model/
+#saved_model/
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
