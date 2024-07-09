@@ -26,11 +26,18 @@ model_path = "api/saved_model/my_model.keras"
 if not os.path.exists(model_path):
     os.makedirs(os.path.dirname(model_path), exist_ok=True)
     response = requests.get(model_url)
-    with open(model_path, "wb") as f:
-        f.write(response.content)
+    if response.status_code == 200:
+        with open(model_path, "wb") as f:
+            f.write(response.content)
+    else:
+        print(f"Failed to download model, status code: {response.status_code}")
 
 # Load the pre-trained model
-model = tf.keras.models.load_model(model_path)
+if os.path.exists(model_path):
+    model = tf.keras.models.load_model(model_path)
+else:
+    print(f"Model file not found at {model_path}")
+    sys.exit(1)
 
 
 def predict_image(image_path):
