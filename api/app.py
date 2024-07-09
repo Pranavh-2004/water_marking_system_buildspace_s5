@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 import cv2
 import numpy as np
 import tensorflow as tf
+import requests
 from hash import histogram_hash
 
 app = Flask(__name__)
@@ -12,8 +13,19 @@ app.config["UPLOAD_FOLDER"] = "static/uploads/"
 # Ensure the upload folder exists
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
-# Load the pre-trained model
+# Google Drive file ID and download URL
+file_id = "1875CZkQWUZDlehjCWxURdTSa6n2_xf0s"
+model_url = f"https://drive.google.com/uc?export=download&id={file_id}"
 model_path = "saved_model/my_model.keras"
+
+# Download the model from Google Drive if it does not exist locally
+if not os.path.exists(model_path):
+    os.makedirs(os.path.dirname(model_path), exist_ok=True)
+    response = requests.get(model_url)
+    with open(model_path, "wb") as f:
+        f.write(response.content)
+
+# Load the pre-trained model
 model = tf.keras.models.load_model(model_path)
 
 
