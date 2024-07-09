@@ -12,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from hash import histogram_hash
 
 app = Flask(__name__)
-app.config["UPLOAD_FOLDER"] = "static/uploads/"
+app.config["UPLOAD_FOLDER"] = os.path.join(os.getcwd(), "static/uploads/")
 
 # Ensure the upload folder exists
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
@@ -20,7 +20,7 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 # Google Drive file ID and download URL
 file_id = "1875CZkQWUZDlehjCWxURdTSa6n2_xf0s"
 model_url = f"https://drive.google.com/uc?export=download&id={file_id}"
-model_path = "api/saved_model/my_model.keras"
+model_path = os.path.join(os.getcwd(), "api/saved_model/my_model.keras")
 
 # Debug: Check the model path
 print(f"Model path: {model_path}")
@@ -42,11 +42,16 @@ else:
 # Verify model file existence after download
 print(f"Model file exists after download: {os.path.exists(model_path)}")
 
-# Load the pre-trained model
+# Check the file size to ensure it is not empty
 if os.path.exists(model_path):
+    print(f"Model file size: {os.path.getsize(model_path)} bytes")
+
+# Load the pre-trained model
+try:
     model = tf.keras.models.load_model(model_path)
-else:
-    print(f"Model file not found at {model_path}")
+    print("Model loaded successfully.")
+except Exception as e:
+    print(f"Error loading model: {e}")
     sys.exit(1)
 
 
