@@ -1,0 +1,12 @@
+services:
+- type: web
+  name: water-marking-system
+  env: python
+  buildCommand: "pip install -r api/requirements.txt"
+  startCommand: "python api/app.py"
+  plan: free  # You can change the plan according to your needs
+  envVars:
+  - key: FLASK_ENV
+    value: production
+  - key: GOOGLE_DRIVE_FILE_ID
+    value: "1875CZkQWUZDlehjCWxURdTSa6n2_xf0s"
