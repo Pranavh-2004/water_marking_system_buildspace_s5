@@ -22,15 +22,25 @@ file_id = "1875CZkQWUZDlehjCWxURdTSa6n2_xf0s"
 model_url = f"https://drive.google.com/uc?export=download&id={file_id}"
 model_path = "api/saved_model/my_model.keras"
 
+# Debug: Check the model path
+print(f"Model path: {model_path}")
+
 # Download the model from Google Drive if it does not exist locally
 if not os.path.exists(model_path):
+    print("Model file does not exist locally. Downloading...")
     os.makedirs(os.path.dirname(model_path), exist_ok=True)
     response = requests.get(model_url)
     if response.status_code == 200:
         with open(model_path, "wb") as f:
             f.write(response.content)
+        print("Model downloaded successfully.")
     else:
         print(f"Failed to download model, status code: {response.status_code}")
+else:
+    print("Model file already exists locally.")
+
+# Verify model file existence after download
+print(f"Model file exists after download: {os.path.exists(model_path)}")
 
 # Load the pre-trained model
 if os.path.exists(model_path):
