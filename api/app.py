@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 import tensorflow as tf
 import requests
-from hash import histogram_hash
+import hash  # import histogram_hash
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "static/uploads/"
@@ -77,7 +77,7 @@ def upload_file():
             file.save(file_path)
 
             # Generate hash
-            image_hash = histogram_hash(file_path)
+            image_hash = hash.histogram_hash(file_path)
 
             # Predict using the pre-trained model
             object_positions_list = predict_image(file_path)
