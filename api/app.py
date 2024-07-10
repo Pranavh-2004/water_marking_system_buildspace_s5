@@ -111,16 +111,13 @@ def upload_file():
             object_positions_list = predict_image(file_path)
 
             return render_template(
-                "templates/index.html",
+                "index.html",
                 image_hash=image_hash,
                 object_positions_list=object_positions_list,
                 file_path=file_path,
             )
     return render_template(
-        "templates/index.html",
-        image_hash=None,
-        object_positions_list=None,
-        file_path=None,
+        "index.html", image_hash=None, object_positions_list=None, file_path=None
     )
 
 
