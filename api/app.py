@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import cv2
 import numpy as np
 import tensorflow as tf
-import keras
+from tensorflow import keras
 import requests
 import gdown
 
@@ -13,7 +13,7 @@ import gdown
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from hash import histogram_hash
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 app.config["UPLOAD_FOLDER"] = os.path.join(os.getcwd(), "static/uploads/")
 
 # Ensure the upload folder exists
