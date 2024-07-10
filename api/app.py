@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 import tensorflow as tf
 import requests
-import keras
+from tensorflow import keras
 
 # Add the root directory to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -26,19 +26,48 @@ model_path = os.path.join(os.getcwd(), "api/saved_model/my_model.keras")
 # Debug: Check the model path
 print(f"Model path: {model_path}")
 
+
+def download_file_from_google_drive(file_id, destination):
+    # Define the base URL for downloading from Google Drive
+    URL = "https://docs.google.com/uc?export=download"
+
+    # Initiate the session
+    session = requests.Session()
+
+    # Define the response
+    response = session.get(URL, params={"id": file_id}, stream=True)
+    token = get_confirm_token(response)
+
+    if token:
+        params = {"id": file_id, "confirm": token}
+        response = session.get(URL, params=params, stream=True)
+
+    save_response_content(response, destination)
+
+
+def get_confirm_token(response):
+    for key, value in response.cookies.items():
+        if key.startswith("download_warning"):
+            return value
+    return None
+
+
+def save_response_content(response, destination):
+    CHUNK_SIZE = 32768
+
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:  # filter out keep-alive new chunks
+                f.write(chunk)
+
+
 # Download the model from Google Drive if it does not exist locally
-if not os.path.exists(model_path) or os.path.getsize(model_path) == 0:
-    print("Model file does not exist locally. Downloading...")
+if (
+    not os.path.exists(model_path) or os.path.getsize(model_path) < 50000
+):  # Assuming the model should be at least 50KB
+    print("Model file does not exist locally or is too small. Downloading...")
     os.makedirs(os.path.dirname(model_path), exist_ok=True)
-    response = requests.get(model_url)
-    if response.status_code == 200:
-        with open(model_path, "wb") as f:
-            f.write(response.content)
-        print("Model downloaded successfully.")
-    else:
-        print(f"Failed to download model, status code: {response.status_code}")
-else:
-    print("Model file already exists locally.")
+    download_file_from_google_drive(file_id, model_path)
 
 # Verify model file existence after download
 print(f"Model file exists after download: {os.path.exists(model_path)}")
