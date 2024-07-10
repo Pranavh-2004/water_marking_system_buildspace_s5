@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 import tensorflow as tf
 import requests
+import keras
 
 # Add the root directory to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -48,7 +49,7 @@ if os.path.exists(model_path):
 
 # Load the pre-trained model
 try:
-    model = tf.keras.models.load_model(model_path)
+    model = keras.models.load_model(model_path)
     print("Model loaded successfully.")
 except Exception as e:
     print(f"Error loading model: {e}")
