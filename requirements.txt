@@ -1,7 +1,8 @@
-Flask
+flask
+gunicorn
 tensorflow
+opencv-python
 numpy
 Pillow
 requests
-opencv-python-headless
 werkzeug

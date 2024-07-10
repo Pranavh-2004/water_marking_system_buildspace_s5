@@ -2,11 +2,13 @@ services:
 - type: web
   name: water-marking-system
   env: python
-  buildCommand: "pip install -r /requirements.txt"
-  startCommand: "python api/app.py"
+  buildCommand: "pip install -r requirements.txt"
+  startCommand: "gunicorn api.app:app --workers 4 --bind 0.0.0.0:$PORT"
   plan: free  # You can change the plan according to your needs
   envVars:
   - key: FLASK_ENV
     value: production
   - key: GOOGLE_DRIVE_FILE_ID
     value: "1875CZkQWUZDlehjCWxURdTSa6n2_xf0s"
+  - key: NODE_VERSION
+    value: 14.17.0

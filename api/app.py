@@ -1,14 +1,10 @@
 import os
-from dotenv import load_dotenv
 from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
 import cv2
 import numpy as np
 import tensorflow as tf
 import requests
-
-# Load environment variables from .env file
-load_dotenv()
 
 # Add the root directory to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +17,8 @@ app.config["UPLOAD_FOLDER"] = os.path.join(os.getcwd(), "static/uploads/")
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 # Google Drive file ID and download URL
-model_url = os.getenv("MODEL_URL")
+file_id = os.getenv("GOOGLE_DRIVE_FILE_ID")
+model_url = f"https://drive.google.com/uc?export=download&id={file_id}"
 model_path = os.path.join(os.getcwd(), "api/saved_model/my_model.keras")
 
 # Debug: Check the model path
@@ -122,4 +119,5 @@ def upload_file():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, host="0.0.0.0", port=port)
