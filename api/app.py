@@ -13,7 +13,7 @@ import gdown
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from hash import histogram_hash
 
-app = Flask(__name__, template_folder="templates")
+app = Flask(__name__, template_folder="../templates")
 app.config["UPLOAD_FOLDER"] = os.path.join(os.getcwd(), "static/uploads/")
 
 # Ensure the upload folder exists
@@ -93,6 +93,8 @@ def predict_image(image_path):
 
 @app.route("/", methods=["GET", "POST"])
 def upload_file():
+    print("Current working directory:", os.getcwd())
+    print("Template folder:", app.template_folder)
     if request.method == "POST":
         if "file" not in request.files:
             return "No file part"
@@ -104,10 +106,8 @@ def upload_file():
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(file_path)
 
-            # Generate hash
             image_hash = histogram_hash(file_path)
 
-            # Predict using the pre-trained model
             object_positions_list = predict_image(file_path)
 
             return render_template(
