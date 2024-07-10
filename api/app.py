@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import cv2
 import numpy as np
 import tensorflow as tf
-from tensorflow import keras
+import keras
 import requests
 import gdown
 
@@ -111,13 +111,16 @@ def upload_file():
             object_positions_list = predict_image(file_path)
 
             return render_template(
-                "index.html",
+                "templates/index.html",
                 image_hash=image_hash,
                 object_positions_list=object_positions_list,
                 file_path=file_path,
             )
     return render_template(
-        "index.html", image_hash=None, object_positions_list=None, file_path=None
+        "templates/index.html",
+        image_hash=None,
+        object_positions_list=None,
+        file_path=None,
     )
 
 
