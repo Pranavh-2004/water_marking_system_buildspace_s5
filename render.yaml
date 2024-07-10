@@ -12,3 +12,5 @@ services:
     value: "1875CZkQWUZDlehjCWxURdTSa6n2_xf0s"
   - key: NODE_VERSION
     value: 14.17.0
+  - key: PORT
+    value: "10000"
