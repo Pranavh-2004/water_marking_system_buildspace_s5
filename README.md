@@ -15,7 +15,7 @@
 In the AI-driven media landscape, digital forgery, deep fakes, copyright infringement, and plagiarism present significant challenges. Verifying the originality and integrity of images is essential to combat misinformation and protect intellectual property. This documentation provides a comprehensive overview of our digital watermarking system designed to authenticate images by embedding hashes. The system maintains image integrity and authenticity, even through compressions and data transfers.
 
 ## Problem Statement
-Images on the internet have become a significant source of misinformation, posing challenges for authenticity verification. Current watermarking methods are inadequate, lacking the ability to effectively mark images from their inception. This deficiency allows for the dissemination of altered or misleading content, undermining trust in digital media.
+Images on the internet have become a significant source of misinformation, posing challenges for authenticity verification. Current watermarking methods are inadequate, lacking the ability to mark images from their effectively. This deficiency allows for the dissemination of altered or misleading content, undermining trust in digital media.
 
 ## Objective
 Develop a robust watermarking system for raw images that can be embedded at the image's inception. This system will enable any individual on the internet to verify if an image is unaltered or has been tampered with.
